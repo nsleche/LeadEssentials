@@ -73,27 +73,14 @@ class RemoteFeedLoaderTests: XCTestCase {
         
         let (sut, client) = makeSUT()
         
-        let item1 = FeedItem(feedId: UUID(), description: nil, location: nil, imageURL: URL(string: "https://a-url.com")!)
+        let item1 = makeFeedItem(feedItemId: UUID(), imageURL: URL(string: "https://a-url.com")!)
         
-        let item1JSON: [String: Any] = [
-            "feedId": item1.feedId.uuidString,
-            "image": item1.imageURL.absoluteString
-        ]
+        let item2 = makeFeedItem(feedItemId: UUID(), description: "item 2 descrition", location: "item 2 location", imageURL: URL(string: "https://a-different-url.com")!)
         
-        let item2 = FeedItem(feedId: UUID(), description: "item 2 descrition", location: "item 2 location", imageURL: URL(string: "https://a-different-url.com")!)
+        let items = [item1.model, item2.model]
         
-        let item2JSON: [String: Any] = [
-            "feedId": item2.feedId.uuidString,
-            "description": item2.description!,
-            "location": item2.location!,
-            "image": item2.imageURL.absoluteString
-        ]
-        
-        let itemsJSON: [String: Any] = ["items": [item1JSON, item2JSON]]
-        
-        
-        expect(sut, toCompleteWithResult: .success([item1, item2])) {
-            let jsonData = try! JSONSerialization.data(withJSONObject: itemsJSON, options: .fragmentsAllowed)
+        expect(sut, toCompleteWithResult: .success(items)) {
+            let jsonData = makeItemsJSON([item1.json, item2.json])
             client.complete(withStatusCode: 200, data: jsonData)
         }
     }
@@ -110,6 +97,26 @@ class RemoteFeedLoaderTests: XCTestCase {
         let remoteFeedLoader = RemoteFeedLoader(url: url, client: client)
         return (sut: remoteFeedLoader, client: client)
         
+    }
+    
+    private func makeFeedItem(feedItemId: UUID, description: String? = nil, location: String? = nil, imageURL: URL) -> (model: FeedItem, json: [String: Any]) {
+        let item = FeedItem(feedItemId: feedItemId, description: description, location: location, imageURL: imageURL)
+        let json: [String: Any] = [
+            "feedItemId": item.feedItemId.uuidString,
+            "description": item.description,
+            "location": item.location,
+            "image": item.imageURL.absoluteString
+        ].reduce(into: [String: Any]()) { (accumulatedDictionary, element) in
+            if let value = element.value {
+                accumulatedDictionary[element.key] = value
+            }
+        }
+        return (item, json)
+    }
+    
+    private func makeItemsJSON(_ items: [[String: Any]]) -> Data {
+        let itemsJSON = ["items": items]
+        return try! JSONSerialization.data(withJSONObject: itemsJSON, options: .fragmentsAllowed)
     }
     
     private class HTTPClientSpy: HTTPClient {
