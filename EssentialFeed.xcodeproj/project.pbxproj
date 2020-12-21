@@ -13,6 +13,7 @@
 		C3D5ED99258982F800E4B234 /* FeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D5ED98258982F800E4B234 /* FeedLoader.swift */; };
 		C3D5EDA32589860C00E4B234 /* RemoteFeedLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D5EDA22589860C00E4B234 /* RemoteFeedLoaderTests.swift */; };
 		C3D5EDA82589940B00E4B234 /* RemoteFeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D5EDA72589940B00E4B234 /* RemoteFeedLoader.swift */; };
+		C3D5EDF125916B1700E4B234 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D5EDF025916B1600E4B234 /* HTTPClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +37,7 @@
 		C3D5EDA12589860C00E4B234 /* EssentialFeedTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EssentialFeedTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		C3D5EDA22589860C00E4B234 /* RemoteFeedLoaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteFeedLoaderTests.swift; sourceTree = "<group>"; };
 		C3D5EDA72589940B00E4B234 /* RemoteFeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteFeedLoader.swift; sourceTree = "<group>"; };
+		C3D5EDF025916B1600E4B234 /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				C3D5EDA72589940B00E4B234 /* RemoteFeedLoader.swift */,
+				C3D5EDF025916B1600E4B234 /* HTTPClient.swift */,
 			);
 			path = "Feed API";
 			sourceTree = "<group>";
@@ -225,6 +228,7 @@
 			files = (
 				C3D5ED99258982F800E4B234 /* FeedLoader.swift in Sources */,
 				C3D5EDA82589940B00E4B234 /* RemoteFeedLoader.swift in Sources */,
+				C3D5EDF125916B1700E4B234 /* HTTPClient.swift in Sources */,
 				C3D5ED952589829A00E4B234 /* FeedItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
