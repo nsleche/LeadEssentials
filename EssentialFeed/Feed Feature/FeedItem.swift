@@ -20,12 +20,3 @@ public struct FeedItem: Equatable {
         self.imageURL = imageURL
     }
 }
-
-extension FeedItem: Decodable {
-    private enum CodingKeys: String, CodingKey {
-        case feedItemId
-        case description
-        case location
-        case imageURL = "image"
-    }
-}
