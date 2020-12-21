@@ -69,7 +69,34 @@ class RemoteFeedLoaderTests: XCTestCase {
         }
     }
     
-    
+    func test_load_deliverFeedItemsOn200HTTPResponseWithJSONItems() {
+        
+        let (sut, client) = makeSUT()
+        
+        let item1 = FeedItem(feedId: UUID(), description: nil, location: nil, imageURL: URL(string: "https://a-url.com")!)
+        
+        let item1JSON: [String: Any] = [
+            "feedId": item1.feedId.uuidString,
+            "image": item1.imageURL.absoluteString
+        ]
+        
+        let item2 = FeedItem(feedId: UUID(), description: "item 2 descrition", location: "item 2 location", imageURL: URL(string: "https://a-different-url.com")!)
+        
+        let item2JSON: [String: Any] = [
+            "feedId": item2.feedId.uuidString,
+            "description": item2.description!,
+            "location": item2.location!,
+            "image": item2.imageURL.absoluteString
+        ]
+        
+        let itemsJSON: [String: Any] = ["items": [item1JSON, item2JSON]]
+        
+        
+        expect(sut, toCompleteWithResult: .success([item1, item2])) {
+            let jsonData = try! JSONSerialization.data(withJSONObject: itemsJSON, options: .fragmentsAllowed)
+            client.complete(withStatusCode: 200, data: jsonData)
+        }
+    }
     
     private func expect(_ sut: RemoteFeedLoader, toCompleteWithResult result: RemoteFeedLoader.RemoteFeedLoaderResult, when action: () -> Void) {
         var capturedResults = [RemoteFeedLoader.RemoteFeedLoaderResult]()
