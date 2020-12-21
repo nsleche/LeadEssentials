@@ -62,10 +62,10 @@ class RemoteFeedLoaderTests: XCTestCase {
     }
     
     private func expect(_ sut: RemoteFeedLoader, toCompleteWithError error: RemoteFeedLoader.RemoteFeedLoaderError, when action: () -> Void) {
-        var capturedErrors = [RemoteFeedLoader.RemoteFeedLoaderError]()
-        sut.load { capturedErrors.append($0) }
+        var capturedResults = [RemoteFeedLoader.RemoteFeedLoaderResult]()
+        sut.load { capturedResults.append($0) }
         action()
-        XCTAssertEqual(capturedErrors, [error])
+        XCTAssertEqual(capturedResults, [.failure(error)])
     }
     
     private func makeSUT(url: URL = URL(string: "https://awss.com")!) -> (sut: RemoteFeedLoader, client: HTTPClientSpy) {
