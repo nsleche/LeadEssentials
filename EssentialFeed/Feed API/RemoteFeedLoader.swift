@@ -40,9 +40,13 @@ public final class RemoteFeedLoader {
     public func load(completion: @escaping (RemoteFeedLoader.RemoteFeedLoaderResult) -> Void) {
         client.get(from: url) { httpClientResult in
             switch httpClientResult {
-            case .success(let response):
-                completion(.failure(RemoteFeedLoaderError.invalidData))
-            case .failure(let error):
+            case let .success(data, _):
+                if let _ = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] {
+                    completion(.success([]))
+                } else {
+                    completion(.failure(RemoteFeedLoaderError.invalidData))
+                }
+            case .failure:
                 completion(.failure(RemoteFeedLoaderError.connectivity))
             }
         }
