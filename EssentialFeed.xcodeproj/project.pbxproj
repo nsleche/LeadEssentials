@@ -83,8 +83,8 @@
 			isa = PBXGroup;
 			children = (
 				C3D5ED7B2589828500E4B234 /* EssentialFeed.h */,
-				C3D5EDA6258993FD00E4B234 /* Feed API */,
 				C3D5ED9C258983BD00E4B234 /* Feed Feature */,
+				C3D5EDA6258993FD00E4B234 /* Feed API */,
 				C3D5ED7C2589828500E4B234 /* Info.plist */,
 			);
 			path = EssentialFeed;
