@@ -103,14 +103,13 @@ class RemoteFeedLoaderTests: XCTestCase {
     }
     
     private func expect(_ sut: RemoteFeedLoader, toCompleteWithResult expectedResult: RemoteFeedLoader.RemoteFeedLoaderResult, when action: () -> Void) {
-        var capturedResults = [RemoteFeedLoader.RemoteFeedLoaderResult]()
         
         let exp = expectation(description: "wait for load completion")
         sut.load { receivedResult in
             switch (receivedResult, expectedResult) {
             case let (.success(receivedItems), .success(expectedItems)):
                 XCTAssertEqual(receivedItems, expectedItems)
-            case let (.failure(receivedError), .failure(expectedError)):
+            case let (.failure(receivedError as RemoteFeedLoader.RemoteFeedLoaderError), .failure(expectedError as RemoteFeedLoader.RemoteFeedLoaderError)):
                 XCTAssertEqual(receivedError, expectedError)
             default:
                 XCTFail("Expected result: \(expectedResult), got: \(receivedResult)")
