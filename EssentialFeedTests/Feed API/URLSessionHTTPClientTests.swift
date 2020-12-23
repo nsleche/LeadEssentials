@@ -9,12 +9,11 @@ import Foundation
 import XCTest
 import EssentialFeed
 
-class URLSessionHTTPClient {
+class URLSessionHTTPClient: HTTPClient {
     let session: URLSession
     
     init(session: URLSession = .shared) {
         self.session = session
-        print(self.session.observationInfo)
     }
     
     struct UnexpectedValuesReprensentation: Error {
@@ -103,7 +102,7 @@ class URLSessionHTTPClientTests: XCTestCase {
         
     }
 
-    private func makeSUT() -> URLSessionHTTPClient {
+    private func makeSUT() -> HTTPClient {
         let sut = URLSessionHTTPClient()
         trackForMemoryLeaks(sut)
         return sut
