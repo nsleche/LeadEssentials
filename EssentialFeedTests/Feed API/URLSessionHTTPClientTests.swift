@@ -59,18 +59,20 @@ class URLSessionHTTPClientTests: XCTestCase {
         
         makeSUT().get(from: url) { _ in }
         
-        wait(for: [exp], timeout: 3.0)
+        wait(for: [exp], timeout: 1.0)
     }
     
     func test_getFromURL_failsOnRequestError() {
-        let error = NSError(domain: "none", code: 400, userInfo: nil)
+        let error = anyNSError()
         let receivedError = resultErrorFor(data: nil, response: nil, error: error)
         XCTAssertEqual(receivedError as NSError?, error)
     }
-    func test_getFromURL_failsOnAllNilValues() {
-        let result = resultErrorFor(data: nil, response: nil, error: nil)
-        print("result", result)
-        XCTAssertNotNil(result)
+    func test_getFromURL_failsOnAllInvalidRepresentationCases() {
+        XCTAssertNotNil(resultErrorFor(data: nil, response: nil, error: nil))
+        XCTAssertNotNil(resultErrorFor(data: anyData(), response: nil, error: nil))
+        XCTAssertNotNil(resultErrorFor(data: anyData(), response: nil, error: anyNSError()))
+        XCTAssertNotNil(resultErrorFor(data: nil, response: anyHTTPURLResponse(), error: anyNSError()))
+        XCTAssertNotNil(resultErrorFor(data: anyData(), response: anyHTTPURLResponse(), error: anyNSError()))
     }
 
     private func makeSUT() -> URLSessionHTTPClient {
@@ -104,6 +106,19 @@ class URLSessionHTTPClientTests: XCTestCase {
     private func anyURL() -> URL {
         return URL(string: "https://www.google.com")!
     }
+    
+    private func anyData() -> Data {
+        return Data("any data".utf8)
+    }
+
+    private func anyNSError() -> NSError {
+        return NSError(domain: "any error", code: 0)
+    }
+
+    private func anyHTTPURLResponse() -> HTTPURLResponse {
+        return HTTPURLResponse(url: anyURL(), statusCode: 200, httpVersion: nil, headerFields: nil)!
+    }
+
     
     private final class URLProtocolStub: URLProtocol {
         
