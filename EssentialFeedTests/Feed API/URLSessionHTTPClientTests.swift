@@ -31,10 +31,12 @@ class URLSessionHTTPClient {
 class URLSessionHTTPClientTests: XCTestCase {
     
     override class func setUp() {
+        super.setUp()
         URLProtocolStub.startInterceptingRequests()
     }
     
     override class func tearDown() {
+        super.tearDown()
         URLProtocolStub.stopInterceptingRequests()
     }
     
@@ -49,7 +51,7 @@ class URLSessionHTTPClientTests: XCTestCase {
             exp.fulfill()
         }
         
-        URLSessionHTTPClient().get(from: url)
+        makeSUT().get(from: url)
         
         wait(for: [exp], timeout: 3.0)
     }
@@ -59,11 +61,9 @@ class URLSessionHTTPClientTests: XCTestCase {
         let error = NSError(domain: "none", code: 400, userInfo: nil)
         URLProtocolStub.stub(data: nil, response: nil, error: error)
                 
-        let sut = URLSessionHTTPClient()
-        print("sut.session.observationInfo", sut.session.observationInfo)
         let exp = expectation(description: "wait for completion")
         
-        sut.get(from: url) { result in
+        makeSUT().get(from: url) { result in
             switch result {
             case let .failure(receivedError as NSError):
                 var a = NSError(domain: receivedError.domain, code: receivedError.code, userInfo: nil)
@@ -75,6 +75,10 @@ class URLSessionHTTPClientTests: XCTestCase {
         }
         
         wait(for: [exp], timeout: 1.0)
+    }
+    
+    private func makeSUT() -> URLSessionHTTPClient {
+        URLSessionHTTPClient()
     }
     
     private final class URLProtocolStub: URLProtocol {
