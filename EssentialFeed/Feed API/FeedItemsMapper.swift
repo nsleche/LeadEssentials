@@ -19,13 +19,13 @@ internal final class FeedItemsMapper {
     }
 
     struct Item: Equatable, Decodable {
-        let feedItemId: UUID
+        let id: UUID
         let description: String?
         let location: String?
         let image: URL
         
         var feedItem: FeedItem {
-            return FeedItem(feedItemId: feedItemId, description: description, location: location, imageURL: image)
+            return FeedItem(feedItemId: id, description: description, location: location, imageURL: image)
         }
         
         
@@ -38,6 +38,9 @@ internal final class FeedItemsMapper {
         
         guard response.statusCode == OK_200,
               let root = try? JSONDecoder().decode(Root.self, from: data) else {
+            if let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] {
+                print("json", json)
+            }
             return RemoteFeedLoader.RemoteFeedLoaderResult.failure(RemoteFeedLoader.RemoteFeedLoaderError.invalidData)
         }
         return RemoteFeedLoader.RemoteFeedLoaderResult.success(root.feed)
