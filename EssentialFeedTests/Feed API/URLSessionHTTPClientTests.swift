@@ -17,11 +17,17 @@ class URLSessionHTTPClient {
         print(self.session.observationInfo)
     }
     
-    func get(from url: URL, _ result: @escaping (HTTPClientResult) -> Void = { _ in }) {
+    struct UnexpectedValuesReprensentation: Error {
+        
+    }
+    
+    func get(from url: URL, completion: @escaping (HTTPClientResult) -> Void) {
         session.dataTask(with: url) { (_, _, error) in
             if let error = error {
-                result(.failure(error))
+                completion(.failure(error))
                 print("error", error)
+            } else {
+                completion(.failure(UnexpectedValuesReprensentation()))
             }
         }.resume()
     }
@@ -51,7 +57,7 @@ class URLSessionHTTPClientTests: XCTestCase {
             exp.fulfill()
         }
         
-        makeSUT().get(from: url)
+        makeSUT().get(from: url) { _ in }
         
         wait(for: [exp], timeout: 3.0)
     }
@@ -75,7 +81,25 @@ class URLSessionHTTPClientTests: XCTestCase {
         
         wait(for: [exp], timeout: 1.0)
     }
-    
+    func test_getFromURL_failsOnAllNilValues() {
+        URLProtocolStub.stub(data: nil, response: nil, error: nil)
+                
+        let exp = expectation(description: "wait for completion")
+        
+        makeSUT().get(from: anyURL()) { result in
+            switch result {
+            case .failure(let error):
+                print("errorroroorororor", error)
+                break
+            default:
+                XCTFail("Expected failure got: \(result) instead")
+            }
+            exp.fulfill()
+        }
+        
+        wait(for: [exp], timeout: 1.0)
+    }
+
     private func makeSUT() -> URLSessionHTTPClient {
         let sut = URLSessionHTTPClient()
         trackForMemoryLeaks(sut)
