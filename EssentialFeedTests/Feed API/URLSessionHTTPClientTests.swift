@@ -23,8 +23,6 @@ class URLSessionHTTPClientTests: XCTestCase {
         URLProtocolStub.stopInterceptingRequests()
     }
     
-    // MARK: CAUSING RACING CONDITION
-    
     func test_getFromURL_performsGETRequestWithURL() {
 
         let url = anyURL()
