@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C308AC2B2595FA3400242A6D /* Caio.swift in Sources */ = {isa = PBXBuildFile; fileRef = C308AC2A2595FA3400242A6D /* Caio.swift */; };
 		C3D5ED822589828500E4B234 /* EssentialFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D5ED782589828500E4B234 /* EssentialFeed.framework */; };
 		C3D5ED892589828500E4B234 /* EssentialFeed.h in Headers */ = {isa = PBXBuildFile; fileRef = C3D5ED7B2589828500E4B234 /* EssentialFeed.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C3D5ED952589829A00E4B234 /* FeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D5ED942589829A00E4B234 /* FeedItem.swift */; };
@@ -41,6 +42,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C308AC2A2595FA3400242A6D /* Caio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Caio.swift; sourceTree = "<group>"; };
 		C3D5ED782589828500E4B234 /* EssentialFeed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EssentialFeed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3D5ED7B2589828500E4B234 /* EssentialFeed.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EssentialFeed.h; sourceTree = "<group>"; };
 		C3D5ED7C2589828500E4B234 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -155,6 +157,7 @@
 			children = (
 				C3D5EDA22589860C00E4B234 /* RemoteFeedLoaderTests.swift */,
 				C3D5EDFD2592B4FA00E4B234 /* URLSessionHTTPClientTests.swift */,
+				C308AC2A2595FA3400242A6D /* Caio.swift */,
 			);
 			path = "Feed API";
 			sourceTree = "<group>";
@@ -329,6 +332,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C3D5EDA32589860C00E4B234 /* RemoteFeedLoaderTests.swift in Sources */,
+				C308AC2B2595FA3400242A6D /* Caio.swift in Sources */,
 				C3D5EDFE2592B4FA00E4B234 /* URLSessionHTTPClientTests.swift in Sources */,
 				C3F60DD52593162600A26E27 /* XCTestCase+MemoryLeakTracking.swift in Sources */,
 			);
