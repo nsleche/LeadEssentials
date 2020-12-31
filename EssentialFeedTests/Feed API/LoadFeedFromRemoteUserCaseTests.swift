@@ -135,13 +135,13 @@ class LoadFeedFromRemoteUserCaseTests: XCTestCase {
         
     }
     
-    private func makeFeedItem(feedItemId: UUID, description: String? = nil, location: String? = nil, imageURL: URL) -> (model: FeedItem, json: [String: Any]) {
-        let item = FeedItem(feedItemId: feedItemId, description: description, location: location, imageURL: imageURL)
+    private func makeFeedItem(feedItemId: UUID, description: String? = nil, location: String? = nil, imageURL: URL) -> (model: FeedImage, json: [String: Any]) {
+        let item = FeedImage(feedId: feedItemId, description: description, location: location, url: imageURL)
         let json: [String: Any] = [
-            "id": item.feedItemId.uuidString,
+            "id": item.feedId.uuidString,
             "description": item.description,
             "location": item.location,
-            "image": item.imageURL.absoluteString
+            "image": item.url.absoluteString
         ].reduce(into: [String: Any]()) { (accumulatedDictionary, element) in
             if let value = element.value {
                 accumulatedDictionary[element.key] = value

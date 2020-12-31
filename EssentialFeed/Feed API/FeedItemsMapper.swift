@@ -23,6 +23,5 @@ internal final class FeedItemsMapper {
             throw RemoteFeedLoader.RemoteFeedLoaderError.invalidData
         }
         return root.items
-
     }
 }

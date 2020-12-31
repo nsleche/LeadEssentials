@@ -1,13 +1,15 @@
 //
-//  FeedImage.swift
+//  LocalFeedImage.swift
 //  EssentialFeed
 //
-//  Created by Antonio Alves on 12/15/20.
+//  Created by Antonio Alves on 12/30/20.
 //
 
 import Foundation
 
-public struct FeedImage: Equatable {
+// @learn: this is a DTO kind of object
+
+public struct LocalFeedImage: Equatable {
     public let feedId: UUID
     public let description: String?
     public let location: String?
