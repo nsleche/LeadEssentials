@@ -25,7 +25,6 @@ class LoadFeedFromCacheUserCaseTests: XCTestCase {
         let (sut, store) = makeSUT()
         let retrievalError = anyNSError()
         
-        
         expect(sut, toCompleteWithResult: .failure(retrievalError)) {
             store.completeRetrieval(with: retrievalError)
         }
@@ -33,11 +32,9 @@ class LoadFeedFromCacheUserCaseTests: XCTestCase {
     
     func test_load_deliversNoImageOnEmptyCache() {
         let (sut, store) = makeSUT()
-        let anyError = anyNSError()
-        
         
         expect(sut, toCompleteWithResult: .success([])) {
-            store.completeRetrieval(with: anyError)
+            store.completeRetrievalWithEmptyCache()
         }
     }
     
@@ -51,17 +48,19 @@ class LoadFeedFromCacheUserCaseTests: XCTestCase {
         return (sut, store)
     }
     
-    private func expect(_ sut: LocalFeedLoader, toCompleteWithResult result: LocalFeedLoader.LoadResult, when action: () -> Void, file: StaticString = #file, line: UInt = #line) {
+    private func expect(_ sut: LocalFeedLoader, toCompleteWithResult expectedResult: LocalFeedLoader.LoadResult, when action: () -> Void, file: StaticString = #file, line: UInt = #line) {
         
         let exp = expectation(description: "waiting for load")
-        let anyError = anyNSError()
         
-        sut.load() { result in
-            switch result {
-            case .success:
-                XCTFail("Expected to receive test_load_failsOnRetrievalError, received: \(result) instead")
-            case let .failure(error):
-                XCTAssertEqual(error as NSError?, anyError)
+        
+        sut.load { receivedResult in
+            switch (receivedResult, expectedResult) {
+            case let (.success(receivedItems), .success(expectedItems)):
+                XCTAssertEqual(receivedItems, expectedItems)
+            case let (.failure(receivedError as NSError?), .failure(expectedError as NSError?)):
+                XCTAssertEqual(receivedError, expectedError)
+            default:
+                XCTFail("Expected result: \(expectedResult), got: \(receivedResult)")
             }
             exp.fulfill()
         }
