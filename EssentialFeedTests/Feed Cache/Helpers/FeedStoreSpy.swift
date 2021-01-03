@@ -21,7 +21,7 @@ class FeedStoreSpy: FeedStore {
     private var deletionCompletions = [DeletionCompletion]()
     private var insertionCompletions = [InsertionCompletion]()
     
-    private var resultCompletions = [(LocalFeedLoader.LoadResult) -> Void]()
+    private var resultCompletions = [RetrieveCompletion]()
     
     func deleteCachedFeed(completion: @escaping DeletionCompletion) {
         self.deletionCompletions.append(completion)
@@ -32,7 +32,7 @@ class FeedStoreSpy: FeedStore {
         self.insertionCompletions.append(completion)
     }
     
-    func retrieve(completion: @escaping (LocalFeedLoader.LoadResult) -> Void) {
+    func retrieve(completion: @escaping RetrieveCompletion) {
         receivedMessages.append(.retrieve)
         resultCompletions.append(completion)
     }
@@ -59,7 +59,11 @@ class FeedStoreSpy: FeedStore {
     }
     
     func completeRetrievalWithEmptyCache(at index: Int = 0) {
-        resultCompletions[index](.success([]))
+        resultCompletions[index](.empty)
+    }
+    
+    func completeRetrieval(with cachedImages: [LocalFeedImage], timestamp: Date, at index: Int = 0) {
+        resultCompletions[0](.found(feed: cachedImages, timestamp: timestamp))
     }
     
 }
