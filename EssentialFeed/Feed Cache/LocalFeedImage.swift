@@ -22,3 +22,5 @@ public struct LocalFeedImage: Equatable {
         self.url = url
     }
 }
+
+extension LocalFeedImage: Codable {}
