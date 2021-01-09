@@ -92,16 +92,8 @@ class CodableFeedStoreTests: XCTestCase {
         let sut = makeSUT()
         let feed = uniqueImageFeed().local
         let timestamp = Date()
-        let exp = expectation(description: "wait for cache retrieve")
         
-        sut.insert(feed, timestamp: timestamp) { insertionError in
-            XCTAssertNil(insertionError, "Expcted feed to be inserted successfully")
-            
-            exp.fulfill()
-            
-        }
-        wait(for: [exp], timeout: 1.0)
-        
+        insert((timestamp: timestamp, feed: feed), to: sut)
         expect(sut, toRetrive: .found(feed: feed, timestamp: timestamp))
     }
     
@@ -109,14 +101,8 @@ class CodableFeedStoreTests: XCTestCase {
         let sut = makeSUT()
         let feed = uniqueImageFeed().local
         let timestamp = Date()
-        let exp = expectation(description: "wait for cache retrieve")
         
-        sut.insert(feed, timestamp: timestamp) { insertionError in
-            XCTAssertNil(insertionError, "Expcted feed to be inserted successfully")
-            exp.fulfill()
-            
-        }
-        wait(for: [exp], timeout: 1.0)
+        insert((timestamp: timestamp, feed: feed), to: sut)
         expect(sut, toRetrieveTwice: .found(feed: feed, timestamp: timestamp))
     }
     
@@ -124,6 +110,18 @@ class CodableFeedStoreTests: XCTestCase {
         let sut = CodableFeedStore(storeURL: testSpecificStoreURL())
         trackForMemoryLeaks(sut)
         return sut
+    }
+    
+    private func insert(_ cache: (timestamp: Date, feed: [LocalFeedImage]), to sut: CodableFeedStore) {
+        let exp = expectation(description: "wait for cache retrieve")
+        
+        sut.insert(cache.feed, timestamp: cache.timestamp) { insertionError in
+            XCTAssertNil(insertionError, "Expcted feed to be inserted successfully")
+            exp.fulfill()
+            
+        }
+        
+        wait(for: [exp], timeout: 1.0)
     }
     
     private func expect(_ sut: CodableFeedStore, toRetrieveTwice expectedResult: RetrieveCacheFeedResult, file: StaticString = #file, line: UInt = #line) {
