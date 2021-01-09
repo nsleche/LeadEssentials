@@ -8,6 +8,32 @@
 import XCTest
 import EssentialFeed
 
+extension FailableDeleteFeedStoreSpecs where Self: XCTestCase {
+    func assertThatRetrieveDeliversEmptyOnEmptyCache(on sut: FeedStore, file: StaticString = #file, line: UInt = #line) {
+        expect(sut, toRetrieve: .empty, file: file, line: line)
+    }
+    
+    func assertThatRetrieveHasNoSideEffectsOnEmptyCache(on sut: FeedStore, file: StaticString = #file, line: UInt = #line) {
+        expect(sut, toRetrieve: .empty, file: file, line: line)
+    }
+    
+    func assertThatRetrieveDeliversFoundValuesOnNonEmptyCache(on sut: FeedStore, file: StaticString = #file, line: UInt = #line) {
+        let feed = uniqueImageFeed().local
+        let timestamp = Date()
+        
+        insert((timestamp: timestamp, feed: feed), to: sut)
+        expect(sut, toRetrieve: .found(feed: feed, timestamp: timestamp))
+    }
+    
+    func assertThatRetrieveHasNoSideEffectsOnNonEmptyCache(on sut: FeedStore, file: StaticString = #file, line: UInt = #line) {
+        let feed = uniqueImageFeed().local
+        let timestamp = Date()
+        
+        insert((timestamp: timestamp, feed: feed), to: sut)
+        expect(sut, toRetrieve: .found(feed: feed, timestamp: timestamp))
+    }
+}
+
 //extension FailableDeleteFeedStoreSpecs where Self: XCTestCase {
 //    func assertThatDeleteDeliversErrorOnDeletionError(on sut: FeedStore, file: StaticString = #file, line: UInt = #line) {
 //        let deletionError = deleteCache(from: sut)
@@ -39,33 +65,19 @@ class CodableFeedStoreTests: XCTestCase, FailableFeedStore {
     }
     
     func test_retrieve_deliversEmptyOnEmptyCache() {
-        expect(makeSUT(), toRetrieve: .empty)
+        assertThatRetrieveDeliversEmptyOnEmptyCache(on: makeSUT())
     }
     
     func test_retrieve_hasNoSideEffectOnEmptyCache() {
-        let sut = makeSUT()
-        
-        expect(sut, toRetrieveTwice: .empty)
+        assertThatRetrieveHasNoSideEffectsOnEmptyCache(on: makeSUT())
     }
     
-    
-    
     func test_retrieve_deliversFoundValuesOnEmptyCache() {
-        let sut = makeSUT()
-        let feed = uniqueImageFeed().local
-        let timestamp = Date()
-        
-        insert((timestamp: timestamp, feed: feed), to: sut)
-        expect(sut, toRetrieve: .found(feed: feed, timestamp: timestamp))
+        assertThatRetrieveDeliversFoundValuesOnNonEmptyCache(on: makeSUT())
     }
     
     func test_retrieveHasNoSideEffectsOnNonEmptyCache() {
-        let sut = makeSUT()
-        let feed = uniqueImageFeed().local
-        let timestamp = Date()
-        
-        insert((timestamp: timestamp, feed: feed), to: sut)
-        expect(sut, toRetrieveTwice: .found(feed: feed, timestamp: timestamp))
+        assertThatRetrieveHasNoSideEffectsOnNonEmptyCache(on: makeSUT())
     }
     
     func test_retrieve_deliversFailureOnRetrievalError() {
