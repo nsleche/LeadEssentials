@@ -40,6 +40,7 @@ protocol FailableInsertFeedStoreSpecs {
 
 protocol FailableDeleteFeedStoreSpecs {
     func test_delete_deliversErrorOnDeletionError()
+    func test_delete_hasNoSideEffectsOnDeletionError()
 }
 
 //extension FailableDeleteFeedStoreSpecs where Self: XCTestCase {
@@ -215,6 +216,15 @@ class CodableFeedStoreTests: XCTestCase {
         XCTAssertNotNil(deletionError, "Expected cache deletion to fail")
     }
     
+    func test_delete_hasNoSideEffectsOnDeletionError() {
+        let noDeletePermissionURL = cachesDirectory()
+        let sut = makeSUT(storeURL: noDeletePermissionURL)
+        
+        deleteCache(from: sut)
+        
+        expect(sut, toRetrieve: .empty)
+    }
+    
     func test_storeSideEffects_runSerially() {
         let sut = makeSUT()
         var completedOperationsInOrder: [XCTestExpectation] = []
@@ -289,6 +299,7 @@ class CodableFeedStoreTests: XCTestCase {
         wait(for: [exp], timeout: 1.0)
     }
     
+    @discardableResult
     private func deleteCache(from sut: FeedStore) -> Error? {
         let exp = expectation(description: "Wait for cache deletion")
         var deletionError: Error?
