@@ -12,50 +12,29 @@ public typealias CachedFeed = (feed: [LocalFeedImage], timestamp: Date)
 
 public class CoreDataFeedStore {
     
-    private static let dataModelName = "FeedStore"
+    private static let modelName = "FeedStore"
+    private static let model = NSManagedObjectModel.with(name: modelName, in: Bundle(for: CoreDataFeedStore.self))
     
+    private let container: NSPersistentContainer
+    private let context: NSManagedObjectContext
     
-    let persistentContainer: NSPersistentContainer
-    let context: NSManagedObjectContext
-    
-    public enum StorageType {
-        case persistent, inMemory
-    }
     
     enum StoreError: Error {
         case modelNotFound
         case failedToLoadPersistentContainer(Error)
     }
     
-    public init(storageType: StorageType = .persistent) {
-        
-        guard let modelURL = Bundle(for: ManagedFeedCache.self).url(forResource: "FeedStore", withExtension: "momd") else {
-            fatalError("Error loading model from bundle")
+    public init(storeURL: URL) throws {
+        guard let model = CoreDataFeedStore.model else {
+            throw StoreError.modelNotFound
         }
         
-        guard let model = NSManagedObjectModel(contentsOf: modelURL) else {
-            fatalError("Error initializing mom from: \(modelURL)")
+        do {
+            container = try NSPersistentContainer.load(name: CoreDataFeedStore.modelName, model: model, url: storeURL)
+            context = container.newBackgroundContext()
+        } catch {
+            throw StoreError.failedToLoadPersistentContainer(error)
         }
-        
-        self.persistentContainer = NSPersistentContainer(name: CoreDataFeedStore.dataModelName, managedObjectModel: model)
-        
-        if storageType == .inMemory {
-            let description = NSPersistentStoreDescription()
-            description.url = URL(fileURLWithPath: "/dev/null")
-            self.persistentContainer.persistentStoreDescriptions = [description]
-        }
-        
-        
-        
-        self.persistentContainer.loadPersistentStores { (storeDescription, error) in
-            if let error = error as NSError? {
-                fatalError("error at loadPersistentStores \(error), \(error.userInfo)")
-            }
-            
-            print("storeDescription", storeDescription)
-        }
-        
-        self.context = persistentContainer.newBackgroundContext()
     }
     
     func performSync<R>(_ action: (NSManagedObjectContext) -> Result<R, Error>) throws -> R {
@@ -69,3 +48,25 @@ public class CoreDataFeedStore {
     
 }
 
+
+extension NSPersistentContainer {
+    static func load(name: String, model: NSManagedObjectModel, url: URL) throws -> NSPersistentContainer {
+        let description = NSPersistentStoreDescription(url: url)
+        let container = NSPersistentContainer(name: name, managedObjectModel: model)
+        container.persistentStoreDescriptions = [description]
+        
+        var loadError: Swift.Error?
+        container.loadPersistentStores { loadError = $1 }
+        try loadError.map { throw $0 }
+        
+        return container
+    }
+}
+
+extension NSManagedObjectModel {
+    static func with(name: String, in bundle: Bundle) -> NSManagedObjectModel? {
+        return bundle
+            .url(forResource: name, withExtension: "momd")
+            .flatMap { NSManagedObjectModel(contentsOf: $0) }
+    }
+}
