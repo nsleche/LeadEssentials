@@ -7,6 +7,7 @@
 
 import XCTest
 import EssentialFeed
+/*
 
 class LoadFeedFromCacheUserCaseTests: XCTestCase {
     
@@ -146,7 +147,7 @@ class LoadFeedFromCacheUserCaseTests: XCTestCase {
         XCTAssertTrue(receivedResults.isEmpty)
     }
     
-    private func makeSUT(currentDate: @escaping () -> Date = Date.init, file: StaticString = #file, line: UInt = #line) -> (sut: LocalFeedLoader, store: FeedStoreSpy) {
+    private func makeSUT(currentDate: @escaping () -> Date = Date.init, file: StaticString = #file, line: UInt = #line) -> (sut: LocalFeedLoader, store: FeedStore) {
         let store = FeedStoreSpy()
         let sut = LocalFeedLoader(store: store, currentDate: currentDate)
         
@@ -178,6 +179,6 @@ class LoadFeedFromCacheUserCaseTests: XCTestCase {
     
     
     
-}
+}*/
 
 

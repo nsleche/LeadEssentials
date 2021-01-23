@@ -5,6 +5,7 @@
 //  Created by Antonio Alves on 1/9/21.
 //
 
+/*
 import Foundation
 
 public class CodableFeedStore: FeedStore {
@@ -92,3 +93,5 @@ public class CodableFeedStore: FeedStore {
         }
     }
 }
+
+*/

@@ -8,6 +8,7 @@
 import XCTest
 import EssentialFeed
 
+
 class LoadFeedFromRemoteUserCaseTests: XCTestCase {
 
     func test_init_doesNotRequestDataFromURL() {
@@ -62,7 +63,7 @@ class LoadFeedFromRemoteUserCaseTests: XCTestCase {
         }
     }
     
-    private func failure(_ error: RemoteFeedLoader.RemoteFeedLoaderError) -> RemoteFeedLoader.RemoteFeedLoaderResult {
+    private func failure(_ error: RemoteFeedLoader.RemoteFeedLoaderError) -> RemoteFeedLoader.LoadResult {
         return .failure(error)
     }
     
@@ -95,7 +96,7 @@ class LoadFeedFromRemoteUserCaseTests: XCTestCase {
         let client = HTTPClientSpy()
         var sut: RemoteFeedLoader? = RemoteFeedLoader(url: url, client: client)
         
-        var capturedResults = [RemoteFeedLoader.RemoteFeedLoaderResult]()
+        var capturedResults = [RemoteFeedLoader.LoadResult]()
         sut?.load { capturedResults.append($0) }
         
         sut = nil
@@ -106,7 +107,7 @@ class LoadFeedFromRemoteUserCaseTests: XCTestCase {
         
     }
     
-    private func expect(_ sut: RemoteFeedLoader, toCompleteWithResult expectedResult: RemoteFeedLoader.RemoteFeedLoaderResult, when action: () -> Void) {
+    private func expect(_ sut: RemoteFeedLoader, toCompleteWithResult expectedResult: RemoteFeedLoader.LoadResult, when action: () -> Void) {
         
         let exp = expectation(description: "wait for load completion")
         sut.load { receivedResult in

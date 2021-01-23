@@ -8,6 +8,7 @@
 import Foundation
 import EssentialFeed
 
+/*
 class FeedStoreSpy: FeedStore {
     
     enum ReceivedMessage: Equatable {
@@ -67,3 +68,5 @@ class FeedStoreSpy: FeedStore {
     }
     
 }
+
+ */
