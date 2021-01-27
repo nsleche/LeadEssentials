@@ -6,9 +6,6 @@ import XCTest
 import EssentialFeed
 
 extension XCTestCase {
-    func uniqueImageFeed() -> [LocalFeedImage] {
-        return [uniqueImage(), uniqueImage()]
-    }
     
     func uniqueImage() -> LocalFeedImage {
         return LocalFeedImage(feedId: UUID(), description: "any description", location: "any location", url: anyURL())
@@ -24,14 +21,12 @@ extension XCTestCase {
 
     @discardableResult
     func insert(_ cache: (feed: [LocalFeedImage], timestamp: Date), to sut: FeedStore) -> Error? {
-		
-		do {
-			try sut.insert(cache.feed, timestamp: cache.timestamp)
-			return nil
-		} catch {
-			return error
-		}
-		
+        do {
+            try sut.insert(cache.feed, timestamp: cache.timestamp)
+            return nil
+        } catch {
+            return error
+        }
     }
     
     @discardableResult
@@ -61,6 +56,8 @@ extension XCTestCase {
 		default:
 			XCTFail("Expected to retrieve \(expectedResult), got \(retrievedResult) instead", file: file, line: line)
 		}
+        
+        
 
     }
 }

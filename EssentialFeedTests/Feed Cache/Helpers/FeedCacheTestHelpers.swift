@@ -12,10 +12,10 @@ func uniqueImage() -> FeedImage {
     return FeedImage(feedId: UUID(), description: "any description", location: "any location", url: anyURL())
 }
 
-func uniqueImageFeed() -> (model: [FeedImage], local: [LocalFeedImage]) {
-    let model = [uniqueImage(), uniqueImage()]
-    let local = model.map { LocalFeedImage(feedId: $0.feedId, description: $0.description, location: $0.location, url: $0.url)}
-    return (model, local)
+func uniqueImageFeed() -> (models: [FeedImage], local: [LocalFeedImage]) {
+    let models = [uniqueImage(), uniqueImage()]
+    let local = models.map { LocalFeedImage(feedId: $0.feedId, description: $0.description, location: $0.location, url: $0.url) }
+    return (models, local)
 }
 
 // @learn: this is a DSL

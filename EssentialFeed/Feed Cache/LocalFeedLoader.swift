@@ -17,7 +17,12 @@ public class LocalFeedLoader {
         self.currentDate = currentDate
     }
     
-    
+    public func load() throws -> [FeedImage] {
+        if let cache = try store.retrieve(), FeedCachePolicy.validate(cache.timestamp, against: currentDate()) {
+            return cache.feed.toModels()
+        }
+        return []
+    }
 }
 
 extension LocalFeedLoader {
@@ -27,24 +32,6 @@ extension LocalFeedLoader {
     public func save(_ feed: [FeedImage]) throws {
         try store.deleteCachedFeed()
         try store.insert(feed.toLocal(), timestamp: currentDate())
-    }
-}
-    
-extension LocalFeedLoader: FeedLoader {
-    
-    public typealias LoadResult = FeedLoader.Result
-
-    public func load(completion: @escaping (LoadResult) -> Void) {
-        
-        do {
-            if let cache = try store.retrieve(), !FeedCachePolicy.validate(cache.timestamp, against: currentDate()) {
-                completion(.success(cache.feed.toModels()))
-            } else {
-                completion(.success([]))
-            }
-        } catch {
-            completion(.failure(error))
-        }
     }
 }
 
