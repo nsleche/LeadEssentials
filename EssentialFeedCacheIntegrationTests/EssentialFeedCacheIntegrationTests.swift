@@ -34,7 +34,7 @@ class EssentialFeedCacheIntegrationTests: XCTestCase {
         let sutToPerformLoad = makeSUT()
         let feed = uniqueImageFeed().models
         
-        persist(sutToPerformSave, feedImage: feed)
+        persist(feed, with: sutToPerformSave)
         
         expect(sutToPerformLoad, toLoad: feed)
         
@@ -48,15 +48,15 @@ class EssentialFeedCacheIntegrationTests: XCTestCase {
         let firstFeed = uniqueImageFeed().models
         let secondFeed = uniqueImageFeed().models
         
-        persist(sutToPerformFirstSave, feedImage: firstFeed)
-        persist(sutToPerformSecondSave, feedImage: secondFeed)
+        persist(firstFeed, with: sutToPerformFirstSave)
+        persist(secondFeed, with: sutToPerformSecondSave)
         expect(sutToLoad, toLoad: secondFeed)
         
     }
     
-    private func persist(_ sut: LocalFeedLoader, feedImage feed: [FeedImage], file: StaticString = #file, line: UInt = #line) {
+    private func persist(_ feed: [FeedImage], with loader: LocalFeedLoader, file: StaticString = #file, line: UInt = #line) {
         do {
-            try sut.save(feed)
+            try loader.save(feed)
             XCTAssert(true)
         } catch {
             XCTFail("failed to perform save with error: \(error)")
