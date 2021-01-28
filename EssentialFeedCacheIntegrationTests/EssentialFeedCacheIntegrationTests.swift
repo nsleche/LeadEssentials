@@ -25,18 +25,7 @@ class EssentialFeedCacheIntegrationTests: XCTestCase {
     func test_load_deliversNoItemsOnEmptyCache() {
         let sut = makeSUT()
         
-        let exp = expectation(description: "wait for load completion")
-        
-        do {
-            let loadedFeed = try sut.load()
-            XCTAssertTrue(loadedFeed.isEmpty)
-            exp.fulfill()
-        } catch {
-            XCTFail("failed to perform load with error: \(error)")
-            exp.fulfill()
-        }
-        
-        wait(for: [exp], timeout: 1.0)
+        expect(sut, toLoad: [])
         
     }
     
@@ -45,26 +34,43 @@ class EssentialFeedCacheIntegrationTests: XCTestCase {
         let sutToPerformLoad = makeSUT()
         let feed = uniqueImageFeed().models
         
-        let saveExp = expectation(description: "Wait for save result")
+        persist(sutToPerformSave, feedImage: feed)
+        
+        expect(sutToPerformLoad, toLoad: feed)
+        
+    }
+    
+    func test_save_overridesitemsSavedOnASeparateInstance() {
+        let sutToPerformFirstSave = makeSUT()
+        let sutToPerformSecondSave = makeSUT()
+        let sutToLoad = makeSUT()
+        
+        let firstFeed = uniqueImageFeed().models
+        let secondFeed = uniqueImageFeed().models
+        
+        persist(sutToPerformFirstSave, feedImage: firstFeed)
+        persist(sutToPerformSecondSave, feedImage: secondFeed)
+        expect(sutToLoad, toLoad: secondFeed)
+        
+    }
+    
+    private func persist(_ sut: LocalFeedLoader, feedImage feed: [FeedImage], file: StaticString = #file, line: UInt = #line) {
         do {
-            try sutToPerformSave.save(feed)
-            saveExp.fulfill()
+            try sut.save(feed)
+            XCTAssert(true)
         } catch {
             XCTFail("failed to perform save with error: \(error)")
         }
-        
-        let loadExp = expectation(description: "wait for load result")
-        
+    }
+    
+    private func expect(_ sut: LocalFeedLoader, toLoad expectedFeed: [FeedImage], file: StaticString = #file, line: UInt = #line) {
+        //let exp = expectation(description: "wait for feed to load")
         do {
-            let loadedFeed = try sutToPerformLoad.load()
-            XCTAssertEqual(loadedFeed, feed)
-            loadExp.fulfill()
+            let feed = try sut.load()
+            XCTAssertEqual(feed, expectedFeed)
         } catch {
             XCTFail("failed to perform load with error: \(error)")
-            loadExp.fulfill()
         }
-        
-        wait(for: [saveExp, loadExp], timeout: 1.0)
     }
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> LocalFeedLoader {
