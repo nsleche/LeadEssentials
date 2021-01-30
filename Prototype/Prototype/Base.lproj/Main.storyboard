@@ -26,7 +26,7 @@
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         </view>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="FeedImageCell" rowHeight="537" id="tBw-KK-Sca">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="FeedImageCell" rowHeight="537" id="tBw-KK-Sca" customClass="FeedImageCell" customModule="Prototype" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="44" width="414" height="537"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="tBw-KK-Sca" id="HqD-e8-6mS">
@@ -88,7 +88,7 @@
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FuM-ih-nSP">
                                                     <rect key="frame" x="0.0" y="412" width="374" height="91"/>
-                                                    <string key="text">LabelLabelLabelLabelLabel LabelLabelLabelLabelLabel LabelLabelLabelLabelLabel LabelLabelLabelLabelLabel LabelLabelLabelLabelLabel LabelLabelLabelLabelLabel v</string>
+                                                    <string key="text">eu dibt jiw eu dibt jiw eu dibt jiw eu dibt jiw eu dibt jiw eu dibt jiw eu dibt jiw eu dibt jiw eu dibt jiw eu dibt jiw eu dibt jiw eu dibt jiw eu dibt jiw eu dibt jiw eu dibt jiw eu dibt jiw eu dibt jiw eu dibt jiw eu dibt jiw eu dibt jiw eu dibt jiw eu dibt jiw eu dibt jiw eu dibt jiw eu dibt jiw eu dibt jiw eu dibt jiw eu dibt jiw </string>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.29019607843137252" green="0.29019607843137252" blue="0.29019607843137252" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -108,6 +108,12 @@
                                         <constraint firstItem="T1U-hH-Ehz" firstAttribute="top" secondItem="HqD-e8-6mS" secondAttribute="topMargin" priority="999" constant="6" id="vay-HZ-2bS"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="descriptionLabel" destination="FuM-ih-nSP" id="bAl-35-cWp"/>
+                                    <outlet property="feedImageView" destination="MfM-eW-fLe" id="Qd8-cw-OtN"/>
+                                    <outlet property="locationContainer" destination="kP6-Cf-atB" id="Sxc-iI-xYN"/>
+                                    <outlet property="locationLabel" destination="Z0t-hw-bIM" id="y7a-Hz-yYu"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
