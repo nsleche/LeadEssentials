@@ -7,12 +7,12 @@
 
 import UIKit
 
-class FeedImageCell: UITableViewCell {
+final class FeedImageCell: UITableViewCell {
 
-    @IBOutlet private var locationContainer: UIView!
-    @IBOutlet private var locationLabel: UILabel!
-    @IBOutlet private var feedImageView: UIImageView!
-    @IBOutlet private var descriptionLabel: UILabel!
+    @IBOutlet private(set) var locationContainer: UIView!
+    @IBOutlet private(set) var locationLabel: UILabel!
+    @IBOutlet private(set) var feedImageView: UIImageView!
+    @IBOutlet private(set) var descriptionLabel: UILabel!
     
 
 }
