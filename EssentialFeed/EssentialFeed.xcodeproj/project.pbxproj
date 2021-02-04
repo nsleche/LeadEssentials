@@ -28,6 +28,7 @@
 		C33B47A025BBDD2A006226C0 /* EssentialFeedCacheIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33B479F25BBDD2A006226C0 /* EssentialFeedCacheIntegrationTests.swift */; };
 		C33B47A225BBDD2A006226C0 /* EssentialFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D5ED782589828500E4B234 /* EssentialFeed.framework */; };
 		C359FE8525CBC3220024A810 /* EssentialFeediOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C359FE7C25CBC3220024A810 /* EssentialFeediOS.framework */; };
+		C359FEAD25CBC9E30024A810 /* FeedViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C359FEAC25CBC9E30024A810 /* FeedViewControllerTests.swift */; };
 		C36FF68F25AA44910084A787 /* CodableFeedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36FF68E25AA44910084A787 /* CodableFeedStore.swift */; };
 		C3726E63259E63EA004C39CD /* LoadFeedFromCacheUserCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3726E62259E63E9004C39CD /* LoadFeedFromCacheUserCaseTests.swift */; };
 		C3726E68259E642E004C39CD /* FeedStoreSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3726E67259E642E004C39CD /* FeedStoreSpy.swift */; };
@@ -109,6 +110,8 @@
 		C359FE7F25CBC3220024A810 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C359FE8425CBC3220024A810 /* EssentialFeediOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EssentialFeediOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C359FE8B25CBC3220024A810 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C359FEAB25CBC9E20024A810 /* EssentialFeediOSTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EssentialFeediOSTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		C359FEAC25CBC9E30024A810 /* FeedViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewControllerTests.swift; sourceTree = "<group>"; };
 		C36FF68E25AA44910084A787 /* CodableFeedStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableFeedStore.swift; sourceTree = "<group>"; };
 		C3726E62259E63E9004C39CD /* LoadFeedFromCacheUserCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadFeedFromCacheUserCaseTests.swift; sourceTree = "<group>"; };
 		C3726E67259E642E004C39CD /* FeedStoreSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedStoreSpy.swift; sourceTree = "<group>"; };
@@ -245,6 +248,8 @@
 			isa = PBXGroup;
 			children = (
 				C359FE8B25CBC3220024A810 /* Info.plist */,
+				C359FEAC25CBC9E30024A810 /* FeedViewControllerTests.swift */,
+				C359FEAB25CBC9E20024A810 /* EssentialFeediOSTests-Bridging-Header.h */,
 			);
 			path = EssentialFeediOSTests;
 			sourceTree = "<group>";
@@ -515,6 +520,7 @@
 					};
 					C359FE8325CBC3220024A810 = {
 						CreatedOnToolsVersion = 12.3;
+						LastSwiftMigration = 1230;
 					};
 					C3D5ED772589828500E4B234 = {
 						CreatedOnToolsVersion = 12.3;
@@ -620,6 +626,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C359FEAD25CBC9E30024A810 /* FeedViewControllerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -796,6 +803,7 @@
 		C359FE9125CBC3220024A810 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = YENA34BLHT;
 				INFOPLIST_FILE = EssentialFeediOSTests/Info.plist;
@@ -806,6 +814,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.nschucky.EssentialFeediOSTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "EssentialFeediOSTests/EssentialFeediOSTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -814,6 +824,7 @@
 		C359FE9225CBC3220024A810 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = YENA34BLHT;
 				INFOPLIST_FILE = EssentialFeediOSTests/Info.plist;
@@ -824,6 +835,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.nschucky.EssentialFeediOSTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "EssentialFeediOSTests/EssentialFeediOSTests-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
