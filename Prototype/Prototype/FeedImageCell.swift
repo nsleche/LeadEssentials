@@ -60,7 +60,7 @@ private extension UIView {
         gradient.startPoint = CGPoint(x: 0.0, y: 0.4)
         gradient.endPoint = CGPoint(x: 1.0, y: 0.6)
         gradient.locations = [0.4, 0.5, 0.6]
-        gradient.frame = CGRect(x: -width, y: 0, width: width*3, height: height)
+        gradient.frame = CGRect(x: -width, y: 0, width: width*3, height: height*3)
         layer.mask = gradient
 
         let animation = CABasicAnimation(keyPath: #keyPath(CAGradientLayer.locations))
